@@ -20,7 +20,7 @@ func TestFeature(t *testing.T) {
 			unmarshalErr: `unknown geometry type: ""`,
 		},
 		"Point": {
-			ft:   Feature{}.WithPoint(Point{-170.0, 40.0}),
+			ft:   Feature{}.WithPoint(&Point{-170.0, 40.0}),
 			json: `{"type":"Feature","geometry":{"coordinates":[-170,40],"type":"Point"}}`,
 			raw:  []float64{-170, 40},
 		},
@@ -30,12 +30,12 @@ func TestFeature(t *testing.T) {
 				Properties: map[string]any{
 					"foo": "bar",
 				},
-			}.WithPoint(Point{-170.0, 40.0}),
+			}.WithPoint(&Point{-170.0, 40.0}),
 			json: `{"id":"abc","type":"Feature","geometry":{"coordinates":[-170,40],"type":"Point"},"properties":{"foo":"bar"}}`,
 		},
 		"MultiPoint": {
 			ft: Feature{}.WithMultiPoint(
-				MultiPoint{
+				&MultiPoint{
 					{-170.0, 40.0},
 				}),
 			raw:  [][]float64{{-170, 40}},
@@ -43,7 +43,7 @@ func TestFeature(t *testing.T) {
 		},
 		"LineString": {
 			ft: Feature{}.WithLineString(
-				LineString{
+				&LineString{
 					{-170.0, 40.0},
 				}),
 			raw:  [][]float64{{-170, 40}},
@@ -51,7 +51,7 @@ func TestFeature(t *testing.T) {
 		},
 		"MultiLineString": {
 			ft: Feature{}.WithMultiLineString(
-				MultiLineString{
+				&MultiLineString{
 					{
 						{-170.0, 40.0},
 					},
@@ -61,7 +61,7 @@ func TestFeature(t *testing.T) {
 		},
 		"Polygon": {
 			ft: Feature{}.WithPolygon(
-				Polygon{
+				&Polygon{
 					{
 						{-170.0, 40.0},
 					},
@@ -71,7 +71,7 @@ func TestFeature(t *testing.T) {
 		},
 		"MultiPolygon": {
 			ft: Feature{}.WithMultiPolygon(
-				MultiPolygon{
+				&MultiPolygon{
 					{
 						{
 							{-170.0, 40.0},
@@ -84,9 +84,9 @@ func TestFeature(t *testing.T) {
 		"GeometryCollection": {
 			ft: Feature{}.WithGeometryCollection(
 				GeometryCollection{}.AppendPoint(
-					Point{-170.0, 40.0},
+					&Point{-170.0, 40.0},
 				).AppendPolygon(
-					Polygon{
+					&Polygon{
 						{
 							{-170.0, 40.0},
 						},
@@ -119,42 +119,42 @@ func TestFeature(t *testing.T) {
 			case GeometryTypePoint:
 				got, ok := tt.ft.AsPoint()
 				assert.True(t, ok)
-				assert.IsType(t, Point{}, got)
+				assert.IsType(t, &Point{}, got)
 				if tt.raw != nil {
 					assert.Equal(t, tt.raw, got.Raw())
 				}
 			case GeometryTypeMultiPoint:
 				got, ok := tt.ft.AsMultiPoint()
 				assert.True(t, ok)
-				assert.IsType(t, MultiPoint{}, got)
+				assert.IsType(t, &MultiPoint{}, got)
 				if tt.raw != nil {
 					assert.Equal(t, tt.raw, got.Raw())
 				}
 			case GeometryTypeLineString:
 				got, ok := tt.ft.AsLineString()
 				assert.True(t, ok)
-				assert.IsType(t, LineString{}, got)
+				assert.IsType(t, &LineString{}, got)
 				if tt.raw != nil {
 					assert.Equal(t, tt.raw, got.Raw())
 				}
 			case GeometryTypeMultiLineString:
 				got, ok := tt.ft.AsMultiLineString()
 				assert.True(t, ok)
-				assert.IsType(t, MultiLineString{}, got)
+				assert.IsType(t, &MultiLineString{}, got)
 				if tt.raw != nil {
 					assert.Equal(t, tt.raw, got.Raw())
 				}
 			case GeometryTypePolygon:
 				got, ok := tt.ft.AsPolygon()
 				assert.True(t, ok)
-				assert.IsType(t, Polygon{}, got)
+				assert.IsType(t, &Polygon{}, got)
 				if tt.raw != nil {
 					assert.Equal(t, tt.raw, got.Raw())
 				}
 			case GeometryTypeMultiPolygon:
 				got, ok := tt.ft.AsMultiPolygon()
 				assert.True(t, ok)
-				assert.IsType(t, MultiPolygon{}, got)
+				assert.IsType(t, &MultiPolygon{}, got)
 				if tt.raw != nil {
 					assert.Equal(t, tt.raw, got.Raw())
 				}
