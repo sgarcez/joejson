@@ -1,6 +1,9 @@
 package joejson
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 // GeometryTypeLineString is the value for a LineString's 'type' member.
 const GeometryTypeLineString = "LineString"
@@ -32,10 +35,15 @@ func (g LineString) MarshalJSON() ([]byte, error) {
 func (g *LineString) UnmarshalJSON(b []byte) error {
 	var tmp struct {
 		Positions []Position `json:"coordinates"`
+		Type      string     `json:"type"`
 	}
 
 	if err := json.Unmarshal(b, &tmp); err != nil {
 		return err
+	}
+
+	if tmp.Type != GeometryTypeLineString {
+		return fmt.Errorf("invalid type %q, expected %q", tmp.Type, GeometryTypeLineString)
 	}
 
 	*g = LineString(tmp.Positions)

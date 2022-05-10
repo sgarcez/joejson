@@ -1,6 +1,9 @@
 package joejson
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 // GeometryTypePoint is the value for a Point's 'type' member.
 const GeometryTypePoint = "Point"
@@ -28,10 +31,15 @@ func (p Point) MarshalJSON() ([]byte, error) {
 func (p *Point) UnmarshalJSON(b []byte) error {
 	var tmp struct {
 		Position Position `json:"coordinates"`
+		Type     string   `json:"type"`
 	}
 
 	if err := json.Unmarshal(b, &tmp); err != nil {
 		return err
+	}
+
+	if tmp.Type != GeometryTypePoint {
+		return fmt.Errorf("invalid type %q, expected %q", tmp.Type, GeometryTypePoint)
 	}
 
 	*p = Point(tmp.Position)

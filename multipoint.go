@@ -1,6 +1,9 @@
 package joejson
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 // GeometryTypeMultiPoint is the value for a MultiPoint's 'type' member.
 const GeometryTypeMultiPoint = "MultiPoint"
@@ -32,10 +35,15 @@ func (g MultiPoint) MarshalJSON() ([]byte, error) {
 func (g *MultiPoint) UnmarshalJSON(b []byte) error {
 	var tmp struct {
 		Positions []Position `json:"coordinates"`
+		Type      string     `json:"type"`
 	}
 
 	if err := json.Unmarshal(b, &tmp); err != nil {
 		return err
+	}
+
+	if tmp.Type != GeometryTypeMultiPoint {
+		return fmt.Errorf("invalid type %q, expected %q", tmp.Type, GeometryTypeMultiPoint)
 	}
 
 	*g = MultiPoint(tmp.Positions)

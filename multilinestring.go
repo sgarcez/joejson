@@ -1,6 +1,9 @@
 package joejson
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 // GeometryTypeMultiLineString is the value for a MultiLineString's 'type' member.
 const GeometryTypeMultiLineString = "MultiLineString"
@@ -36,10 +39,15 @@ func (g MultiLineString) MarshalJSON() ([]byte, error) {
 func (g *MultiLineString) UnmarshalJSON(b []byte) error {
 	var tmp struct {
 		LineStrings [][]Position `json:"coordinates"`
+		Type        string       `json:"type"`
 	}
 
 	if err := json.Unmarshal(b, &tmp); err != nil {
 		return err
+	}
+
+	if tmp.Type != GeometryTypeMultiLineString {
+		return fmt.Errorf("invalid type %q, expected %q", tmp.Type, GeometryTypeMultiLineString)
 	}
 
 	*g = make([]LineString, len(tmp.LineStrings))

@@ -1,6 +1,9 @@
 package joejson
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 // TypeFeatureCollection is the value for a FeatureCollection's 'type' member.
 const TypeFeatureCollection string = "FeatureCollection"
@@ -27,12 +30,17 @@ func (f FeatureCollection) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON is a custom JSON unmarshaller.
 func (f *FeatureCollection) UnmarshalJSON(b []byte) error {
 	var tmp struct {
+		Type     string     `json:"type"`
 		Features []Feature  `json:"features"`
 		Bbox     []Position `json:"bbox"`
 	}
 
 	if err := json.Unmarshal(b, &tmp); err != nil {
 		return err
+	}
+
+	if tmp.Type != TypeFeatureCollection {
+		return fmt.Errorf("invalid type %q, expected %q", tmp.Type, TypeFeatureCollection)
 	}
 
 	f.Features = tmp.Features
