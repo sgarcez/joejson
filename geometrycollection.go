@@ -2,6 +2,7 @@ package joejson
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // GeometryTypeGeometryCollection is the value for a GeometryCollection's 'type' member.
@@ -55,10 +56,15 @@ func (g GeometryCollection) MarshalJSON() ([]byte, error) {
 func (g *GeometryCollection) UnmarshalJSON(b []byte) error {
 	var tmp struct {
 		Geometries []json.RawMessage `json:"geometries"`
+		Type       string            `json:"type"`
 	}
 
 	if err := json.Unmarshal(b, &tmp); err != nil {
 		return err
+	}
+
+	if tmp.Type != GeometryTypeGeometryCollection {
+		return fmt.Errorf("invalid type %q, expected %q", tmp.Type, GeometryTypeGeometryCollection)
 	}
 
 	for _, geom := range tmp.Geometries {

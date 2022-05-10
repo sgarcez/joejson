@@ -1,6 +1,9 @@
 package joejson
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 // GeometryTypeMultiPolygon is the value for a MultiPolygon's 'type' member.
 const GeometryTypeMultiPolygon = "MultiPolygon"
@@ -36,10 +39,15 @@ func (p MultiPolygon) MarshalJSON() ([]byte, error) {
 func (p *MultiPolygon) UnmarshalJSON(b []byte) error {
 	var tmp struct {
 		Polygons [][]LinearRing `json:"coordinates"`
+		Type     string         `json:"type"`
 	}
 
 	if err := json.Unmarshal(b, &tmp); err != nil {
 		return err
+	}
+
+	if tmp.Type != GeometryTypeMultiPolygon {
+		return fmt.Errorf("invalid type %q, expected %q", tmp.Type, GeometryTypeMultiPolygon)
 	}
 
 	*p = make(MultiPolygon, len(tmp.Polygons))

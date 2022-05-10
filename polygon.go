@@ -1,6 +1,9 @@
 package joejson
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 // GeometryTypePolygon is the value for a Polygon's 'type' member.
 const GeometryTypePolygon = "Polygon"
@@ -44,10 +47,15 @@ func (p Polygon) MarshalJSON() ([]byte, error) {
 func (p *Polygon) UnmarshalJSON(b []byte) error {
 	var tmp struct {
 		Rings []LinearRing `json:"coordinates"`
+		Type  string       `json:"type"`
 	}
 
 	if err := json.Unmarshal(b, &tmp); err != nil {
 		return err
+	}
+
+	if tmp.Type != GeometryTypePolygon {
+		return fmt.Errorf("invalid type %q, expected %q", tmp.Type, GeometryTypePolygon)
 	}
 
 	*p = tmp.Rings
