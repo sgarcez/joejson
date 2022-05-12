@@ -11,7 +11,7 @@ const TypeFeature string = "Feature"
 // Feature represents a spatially bounded 'thing'.
 type Feature struct {
 	// ID is an optional Feature identifier ('id').
-	ID string
+	ID any
 	//  Properties is an optional JSON object ('properties').
 	Properties map[string]any
 	// Bbox optionally includes information on the coordinate range for the Feature Geometry.
@@ -129,8 +129,14 @@ func (f *Feature) AsGeometryCollection() (GeometryCollection, bool) {
 
 // MarshalJSON is a custom JSON marshaller.
 func (f Feature) MarshalJSON() ([]byte, error) {
+	switch f.ID.(type) {
+	case string, uint8, uint16, uint32, uint64, int8, int16, int32, int64, float32, float64, nil:
+	default:
+		return nil, fmt.Errorf(`invalid type "%T" for id, expected string or numeric`, f.ID)
+	}
+
 	return json.Marshal(&struct {
-		ID         string         `json:"id,omitempty"`
+		ID         any            `json:"id,omitempty"`
 		Type       string         `json:"type"`
 		Geometry   any            `json:"geometry"`
 		Properties map[string]any `json:"properties,omitempty"`
@@ -147,7 +153,7 @@ func (f Feature) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON is a custom JSON unmarshaller.
 func (f *Feature) UnmarshalJSON(b []byte) error {
 	var tmp struct {
-		ID         string          `json:"id"`
+		ID         any             `json:"id"`
 		Geometry   json.RawMessage `json:"geometry"`
 		Properties map[string]any  `json:"properties"`
 		Bbox       []Position      `json:"bbox"`
@@ -155,6 +161,12 @@ func (f *Feature) UnmarshalJSON(b []byte) error {
 
 	if err := json.Unmarshal(b, &tmp); err != nil {
 		return err
+	}
+
+	switch tmp.ID.(type) {
+	case string, float64, nil:
+	default:
+		return fmt.Errorf(`invalid type "%T" for id, expected string or numeric`, tmp.ID)
 	}
 
 	f.ID = tmp.ID
