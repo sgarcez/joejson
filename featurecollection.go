@@ -16,7 +16,7 @@ type FeatureCollection struct {
 
 // MarshalJSON is a custom JSON marshaller.
 func (f FeatureCollection) MarshalJSON() ([]byte, error) {
-	return json.Marshal(&struct {
+	return json.Marshal(struct {
 		Type     string     `json:"type"`
 		Features []Feature  `json:"features"`
 		BBox     []Position `json:"bbox,omitempty"`
