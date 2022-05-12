@@ -98,7 +98,7 @@ func (f Feature) WithPolygon(g Polygon) Feature {
 }
 
 // AsPolygon casts the Feature's Geometry to a Polygon.
-func (f *Feature) AsPolygon() (Polygon, bool) {
+func (f Feature) AsPolygon() (Polygon, bool) {
 	p, ok := f.geometry.(Polygon)
 	return p, ok
 }
@@ -110,7 +110,7 @@ func (f Feature) WithMultiPolygon(g MultiPolygon) Feature {
 }
 
 // AsMultiPolygon casts the Feature's Geometry to a MultiPolygon.
-func (f *Feature) AsMultiPolygon() (MultiPolygon, bool) {
+func (f Feature) AsMultiPolygon() (MultiPolygon, bool) {
 	p, ok := f.geometry.(MultiPolygon)
 	return p, ok
 }
@@ -122,7 +122,7 @@ func (f Feature) WithGeometryCollection(g GeometryCollection) Feature {
 }
 
 // AsGeometryCollection casts Feature's Geometry to a GeometryCollection.
-func (f *Feature) AsGeometryCollection() (GeometryCollection, bool) {
+func (f Feature) AsGeometryCollection() (GeometryCollection, bool) {
 	p, ok := f.geometry.(GeometryCollection)
 	return p, ok
 }
