@@ -176,51 +176,59 @@ func TestFeatureIDJSONMarshall(t *testing.T) {
 		err  string
 	}{
 		"string": {
-			ft:   Feature{ID: "1"}.WithPoint(Point{0, 0}),
+			ft:   Feature{ID: "1"}.WithPoint(&Point{0, 0}),
 			json: `{"id":"1","type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
 		},
+		"uint": {
+			ft:   Feature{ID: uint(1)}.WithPoint(&Point{0, 0}),
+			json: `{"id":1,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
+		},
 		"uint8": {
-			ft:   Feature{ID: uint8(1)}.WithPoint(Point{0, 0}),
+			ft:   Feature{ID: uint8(1)}.WithPoint(&Point{0, 0}),
 			json: `{"id":1,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
 		},
 		"uint16": {
-			ft:   Feature{ID: uint16(1)}.WithPoint(Point{0, 0}),
+			ft:   Feature{ID: uint16(1)}.WithPoint(&Point{0, 0}),
 			json: `{"id":1,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
 		},
 		"uint32": {
-			ft:   Feature{ID: uint32(1)}.WithPoint(Point{0, 0}),
+			ft:   Feature{ID: uint32(1)}.WithPoint(&Point{0, 0}),
 			json: `{"id":1,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
 		},
 		"uint64": {
-			ft:   Feature{ID: uint64(1)}.WithPoint(Point{0, 0}),
+			ft:   Feature{ID: uint64(1)}.WithPoint(&Point{0, 0}),
+			json: `{"id":1,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
+		},
+		"int": {
+			ft:   Feature{ID: int(1)}.WithPoint(&Point{0, 0}),
 			json: `{"id":1,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
 		},
 		"int8": {
-			ft:   Feature{ID: int8(1)}.WithPoint(Point{0, 0}),
+			ft:   Feature{ID: int8(1)}.WithPoint(&Point{0, 0}),
 			json: `{"id":1,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
 		},
 		"int16": {
-			ft:   Feature{ID: int16(1)}.WithPoint(Point{0, 0}),
+			ft:   Feature{ID: int16(1)}.WithPoint(&Point{0, 0}),
 			json: `{"id":1,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
 		},
 		"int32": {
-			ft:   Feature{ID: int32(1)}.WithPoint(Point{0, 0}),
+			ft:   Feature{ID: int32(1)}.WithPoint(&Point{0, 0}),
 			json: `{"id":1,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
 		},
 		"int64": {
-			ft:   Feature{ID: int64(1)}.WithPoint(Point{0, 0}),
+			ft:   Feature{ID: int64(1)}.WithPoint(&Point{0, 0}),
 			json: `{"id":1,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
 		},
 		"float32": {
-			ft:   Feature{ID: float32(1)}.WithPoint(Point{0, 0}),
+			ft:   Feature{ID: float32(1)}.WithPoint(&Point{0, 0}),
 			json: `{"id":1,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
 		},
 		"float64": {
-			ft:   Feature{ID: float64(1)}.WithPoint(Point{0, 0}),
+			ft:   Feature{ID: float64(1)}.WithPoint(&Point{0, 0}),
 			json: `{"id":1,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
 		},
 		"other type than int or string": {
-			ft:  Feature{ID: true}.WithPoint(Point{0, 0}),
+			ft:  Feature{ID: true}.WithPoint(&Point{0, 0}),
 			err: `json: error calling MarshalJSON for type joejson.Feature: invalid type "bool" for id, expected string or numeric`,
 		},
 	}
@@ -250,15 +258,15 @@ func TestFeatureIDJSONUnmarshall(t *testing.T) {
 	}{
 		"string": {
 			json: `{"id":"1","type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
-			ft:   Feature{ID: "1"}.WithPoint(Point{0, 0}),
+			ft:   Feature{ID: "1"}.WithPoint(&Point{0, 0}),
 		},
 		"integer": {
 			json: `{"id":1,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
-			ft:   Feature{ID: float64(1)}.WithPoint(Point{0, 0}),
+			ft:   Feature{ID: float64(1)}.WithPoint(&Point{0, 0}),
 		},
 		"decimal": {
 			json: `{"id":1.5,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
-			ft:   Feature{ID: float64(1.5)}.WithPoint(Point{0, 0}),
+			ft:   Feature{ID: float64(1.5)}.WithPoint(&Point{0, 0}),
 		},
 		"other type than numeric or string": {
 			json: `{"id":true,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,

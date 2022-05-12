@@ -130,7 +130,7 @@ func (f *Feature) AsGeometryCollection() (GeometryCollection, bool) {
 // MarshalJSON is a custom JSON marshaller.
 func (f Feature) MarshalJSON() ([]byte, error) {
 	switch f.ID.(type) {
-	case string, uint8, uint16, uint32, uint64, int8, int16, int32, int64, float32, float64, nil:
+	case string, uint, uint8, uint16, uint32, uint64, int, int8, int16, int32, int64, float32, float64, nil:
 	default:
 		return nil, fmt.Errorf(`invalid type "%T" for id, expected string or numeric`, f.ID)
 	}
