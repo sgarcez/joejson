@@ -1,0 +1,23 @@
+run:
+  tests: true
+
+linters:
+  enable:
+    - govet
+    - revive
+    - gofumpt
+    - gosec
+    - unparam
+    - goconst
+    - prealloc
+    - stylecheck
+    - unconvert
+    - errcheck
+    - deadcode
+    - ineffassign
+    - structcheck
+    - tparallel
+    - whitespace
+    - staticcheck
+    - gosimple
+    - gocritic

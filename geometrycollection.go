@@ -121,10 +121,7 @@ func (g *GeometryCollectionMember) AsMultiPolygon() (MultiPolygon, bool) {
 
 // MarshalJSON is a custom JSON marshaller.
 func (g GeometryCollectionMember) MarshalJSON() ([]byte, error) {
-	switch v := g.geometry.(type) {
-	default:
-		return json.Marshal(v)
-	}
+	return json.Marshal(g.geometry)
 }
 
 // Type is the type of the Geometry.
