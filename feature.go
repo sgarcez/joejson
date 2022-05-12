@@ -24,17 +24,17 @@ type Feature struct {
 // GeometryType is the type of the Feature's Geometry.
 func (f Feature) GeometryType() string {
 	switch f.geometry.(type) {
-	case *Point:
+	case Point:
 		return GeometryTypePoint
-	case *MultiPoint:
+	case MultiPoint:
 		return GeometryTypeMultiPoint
-	case *LineString:
+	case LineString:
 		return GeometryTypeLineString
-	case *MultiLineString:
+	case MultiLineString:
 		return GeometryTypeMultiLineString
-	case *Polygon:
+	case Polygon:
 		return GeometryTypePolygon
-	case *MultiPolygon:
+	case MultiPolygon:
 		return GeometryTypeMultiPolygon
 	case GeometryCollection:
 		return GeometryTypeGeometryCollection
@@ -44,74 +44,74 @@ func (f Feature) GeometryType() string {
 }
 
 // WithPoint sets the Feature's Geometry to the provided Point.
-func (f Feature) WithPoint(g *Point) Feature {
+func (f Feature) WithPoint(g Point) Feature {
 	f.geometry = g
 	return f
 }
 
 // AsPoint casts the Feature's Geometry to a Point.
-func (f Feature) AsPoint() (*Point, bool) {
-	p, ok := f.geometry.(*Point)
+func (f Feature) AsPoint() (Point, bool) {
+	p, ok := f.geometry.(Point)
 	return p, ok
 }
 
 // WithMultiPoint sets the Feature's Geometry to the provided MultiPoint.
-func (f Feature) WithMultiPoint(g *MultiPoint) Feature {
+func (f Feature) WithMultiPoint(g MultiPoint) Feature {
 	f.geometry = g
 	return f
 }
 
 // AsMultiPoint casts the Feature's Geometry to a MultiPoint.
-func (f Feature) AsMultiPoint() (*MultiPoint, bool) {
-	p, ok := f.geometry.(*MultiPoint)
+func (f Feature) AsMultiPoint() (MultiPoint, bool) {
+	p, ok := f.geometry.(MultiPoint)
 	return p, ok
 }
 
 // WithLineString sets the Feature's Geometry to the provided LineString.
-func (f Feature) WithLineString(g *LineString) Feature {
+func (f Feature) WithLineString(g LineString) Feature {
 	f.geometry = g
 	return f
 }
 
 // AsLineString casts the Feature's Geometry to a LineString.
-func (f Feature) AsLineString() (*LineString, bool) {
-	p, ok := f.geometry.(*LineString)
+func (f Feature) AsLineString() (LineString, bool) {
+	p, ok := f.geometry.(LineString)
 	return p, ok
 }
 
 // WithMultiLineString sets the Feature's Geometry to the provided LineMultiString.
-func (f Feature) WithMultiLineString(g *MultiLineString) Feature {
+func (f Feature) WithMultiLineString(g MultiLineString) Feature {
 	f.geometry = g
 	return f
 }
 
 // AsMultiLineString casts the Feature's Geometry to a MultiLineString.
-func (f Feature) AsMultiLineString() (*MultiLineString, bool) {
-	p, ok := f.geometry.(*MultiLineString)
+func (f Feature) AsMultiLineString() (MultiLineString, bool) {
+	p, ok := f.geometry.(MultiLineString)
 	return p, ok
 }
 
 // WithPolygon sets the Feature's Geometry to the provided Polygon.
-func (f Feature) WithPolygon(g *Polygon) Feature {
+func (f Feature) WithPolygon(g Polygon) Feature {
 	f.geometry = g
 	return f
 }
 
 // AsPolygon casts the Feature's Geometry to a Polygon.
-func (f Feature) AsPolygon() (*Polygon, bool) {
-	p, ok := f.geometry.(*Polygon)
+func (f *Feature) AsPolygon() (Polygon, bool) {
+	p, ok := f.geometry.(Polygon)
 	return p, ok
 }
 
 // WithMultiPolygon sets the Feature's Geometry to the provided MultiPolygon.
-func (f Feature) WithMultiPolygon(g *MultiPolygon) Feature {
+func (f Feature) WithMultiPolygon(g MultiPolygon) Feature {
 	f.geometry = g
 	return f
 }
 
 // AsMultiPolygon casts the Feature's Geometry to a MultiPolygon.
-func (f *Feature) AsMultiPolygon() (*MultiPolygon, bool) {
-	p, ok := f.geometry.(*MultiPolygon)
+func (f *Feature) AsMultiPolygon() (MultiPolygon, bool) {
+	p, ok := f.geometry.(MultiPolygon)
 	return p, ok
 }
 
@@ -193,37 +193,37 @@ func unmarshalGeometry(bs []byte) (any, error) {
 		if err := json.Unmarshal(bs, &g); err != nil {
 			return nil, err
 		}
-		return &g, nil
+		return g, nil
 	case GeometryTypeMultiPoint:
 		var g MultiPoint
 		if err := json.Unmarshal(bs, &g); err != nil {
 			return nil, err
 		}
-		return &g, nil
+		return g, nil
 	case GeometryTypeLineString:
 		var g LineString
 		if err := json.Unmarshal(bs, &g); err != nil {
 			return nil, err
 		}
-		return &g, nil
+		return g, nil
 	case GeometryTypeMultiLineString:
 		var g MultiLineString
 		if err := json.Unmarshal(bs, &g); err != nil {
 			return nil, err
 		}
-		return &g, nil
+		return g, nil
 	case GeometryTypePolygon:
 		var g Polygon
 		if err := json.Unmarshal(bs, &g); err != nil {
 			return nil, err
 		}
-		return &g, nil
+		return g, nil
 	case GeometryTypeMultiPolygon:
 		var g MultiPolygon
 		if err := json.Unmarshal(bs, &g); err != nil {
 			return nil, err
 		}
-		return &g, nil
+		return g, nil
 	case GeometryTypeGeometryCollection:
 		var g GeometryCollection
 		if err := json.Unmarshal(bs, &g); err != nil {

@@ -20,7 +20,7 @@ func TestFeature(t *testing.T) {
 			unmarshalErr: `unknown geometry type: ""`,
 		},
 		"Point": {
-			ft:   Feature{}.WithPoint(&Point{-170.0, 40.0}),
+			ft:   Feature{}.WithPoint(Point{-170.0, 40.0}),
 			json: `{"type":"Feature","geometry":{"coordinates":[-170,40],"type":"Point"}}`,
 			raw:  []float64{-170, 40},
 		},
@@ -30,12 +30,12 @@ func TestFeature(t *testing.T) {
 				Properties: map[string]any{
 					"foo": "bar",
 				},
-			}.WithPoint(&Point{-170.0, 40.0}),
+			}.WithPoint(Point{-170.0, 40.0}),
 			json: `{"id":"abc","type":"Feature","geometry":{"coordinates":[-170,40],"type":"Point"},"properties":{"foo":"bar"}}`,
 		},
 		"MultiPoint": {
 			ft: Feature{}.WithMultiPoint(
-				&MultiPoint{
+				MultiPoint{
 					{-170.0, 40.0},
 				}),
 			raw:  [][]float64{{-170, 40}},
@@ -43,7 +43,7 @@ func TestFeature(t *testing.T) {
 		},
 		"LineString": {
 			ft: Feature{}.WithLineString(
-				&LineString{
+				LineString{
 					{-170.0, 40.0},
 				}),
 			raw:  [][]float64{{-170, 40}},
@@ -51,7 +51,7 @@ func TestFeature(t *testing.T) {
 		},
 		"MultiLineString": {
 			ft: Feature{}.WithMultiLineString(
-				&MultiLineString{
+				MultiLineString{
 					{
 						{-170.0, 40.0},
 					},
@@ -61,7 +61,7 @@ func TestFeature(t *testing.T) {
 		},
 		"Polygon": {
 			ft: Feature{}.WithPolygon(
-				&Polygon{
+				Polygon{
 					{
 						{-170.0, 40.0},
 					},
@@ -71,7 +71,7 @@ func TestFeature(t *testing.T) {
 		},
 		"MultiPolygon": {
 			ft: Feature{}.WithMultiPolygon(
-				&MultiPolygon{
+				MultiPolygon{
 					{
 						{
 							{-170.0, 40.0},
@@ -84,9 +84,9 @@ func TestFeature(t *testing.T) {
 		"GeometryCollection": {
 			ft: Feature{}.WithGeometryCollection(
 				GeometryCollection{}.AppendPoint(
-					&Point{-170.0, 40.0},
+					Point{-170.0, 40.0},
 				).AppendPolygon(
-					&Polygon{
+					Polygon{
 						{
 							{-170.0, 40.0},
 						},
@@ -119,42 +119,42 @@ func TestFeature(t *testing.T) {
 			case GeometryTypePoint:
 				got, ok := tt.ft.AsPoint()
 				assert.True(t, ok)
-				assert.IsType(t, &Point{}, got)
+				assert.IsType(t, Point{}, got)
 				if tt.raw != nil {
 					assert.Equal(t, tt.raw, got.Raw())
 				}
 			case GeometryTypeMultiPoint:
 				got, ok := tt.ft.AsMultiPoint()
 				assert.True(t, ok)
-				assert.IsType(t, &MultiPoint{}, got)
+				assert.IsType(t, MultiPoint{}, got)
 				if tt.raw != nil {
 					assert.Equal(t, tt.raw, got.Raw())
 				}
 			case GeometryTypeLineString:
 				got, ok := tt.ft.AsLineString()
 				assert.True(t, ok)
-				assert.IsType(t, &LineString{}, got)
+				assert.IsType(t, LineString{}, got)
 				if tt.raw != nil {
 					assert.Equal(t, tt.raw, got.Raw())
 				}
 			case GeometryTypeMultiLineString:
 				got, ok := tt.ft.AsMultiLineString()
 				assert.True(t, ok)
-				assert.IsType(t, &MultiLineString{}, got)
+				assert.IsType(t, MultiLineString{}, got)
 				if tt.raw != nil {
 					assert.Equal(t, tt.raw, got.Raw())
 				}
 			case GeometryTypePolygon:
 				got, ok := tt.ft.AsPolygon()
 				assert.True(t, ok)
-				assert.IsType(t, &Polygon{}, got)
+				assert.IsType(t, Polygon{}, got)
 				if tt.raw != nil {
 					assert.Equal(t, tt.raw, got.Raw())
 				}
 			case GeometryTypeMultiPolygon:
 				got, ok := tt.ft.AsMultiPolygon()
 				assert.True(t, ok)
-				assert.IsType(t, &MultiPolygon{}, got)
+				assert.IsType(t, MultiPolygon{}, got)
 				if tt.raw != nil {
 					assert.Equal(t, tt.raw, got.Raw())
 				}
@@ -176,59 +176,59 @@ func TestFeatureIDJSONMarshall(t *testing.T) {
 		err  string
 	}{
 		"string": {
-			ft:   Feature{ID: "1"}.WithPoint(&Point{0, 0}),
+			ft:   Feature{ID: "1"}.WithPoint(Point{0, 0}),
 			json: `{"id":"1","type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
 		},
 		"uint": {
-			ft:   Feature{ID: uint(1)}.WithPoint(&Point{0, 0}),
+			ft:   Feature{ID: uint(1)}.WithPoint(Point{0, 0}),
 			json: `{"id":1,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
 		},
 		"uint8": {
-			ft:   Feature{ID: uint8(1)}.WithPoint(&Point{0, 0}),
+			ft:   Feature{ID: uint8(1)}.WithPoint(Point{0, 0}),
 			json: `{"id":1,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
 		},
 		"uint16": {
-			ft:   Feature{ID: uint16(1)}.WithPoint(&Point{0, 0}),
+			ft:   Feature{ID: uint16(1)}.WithPoint(Point{0, 0}),
 			json: `{"id":1,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
 		},
 		"uint32": {
-			ft:   Feature{ID: uint32(1)}.WithPoint(&Point{0, 0}),
+			ft:   Feature{ID: uint32(1)}.WithPoint(Point{0, 0}),
 			json: `{"id":1,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
 		},
 		"uint64": {
-			ft:   Feature{ID: uint64(1)}.WithPoint(&Point{0, 0}),
+			ft:   Feature{ID: uint64(1)}.WithPoint(Point{0, 0}),
 			json: `{"id":1,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
 		},
 		"int": {
-			ft:   Feature{ID: int(1)}.WithPoint(&Point{0, 0}),
+			ft:   Feature{ID: int(1)}.WithPoint(Point{0, 0}),
 			json: `{"id":1,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
 		},
 		"int8": {
-			ft:   Feature{ID: int8(1)}.WithPoint(&Point{0, 0}),
+			ft:   Feature{ID: int8(1)}.WithPoint(Point{0, 0}),
 			json: `{"id":1,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
 		},
 		"int16": {
-			ft:   Feature{ID: int16(1)}.WithPoint(&Point{0, 0}),
+			ft:   Feature{ID: int16(1)}.WithPoint(Point{0, 0}),
 			json: `{"id":1,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
 		},
 		"int32": {
-			ft:   Feature{ID: int32(1)}.WithPoint(&Point{0, 0}),
+			ft:   Feature{ID: int32(1)}.WithPoint(Point{0, 0}),
 			json: `{"id":1,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
 		},
 		"int64": {
-			ft:   Feature{ID: int64(1)}.WithPoint(&Point{0, 0}),
+			ft:   Feature{ID: int64(1)}.WithPoint(Point{0, 0}),
 			json: `{"id":1,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
 		},
 		"float32": {
-			ft:   Feature{ID: float32(1)}.WithPoint(&Point{0, 0}),
+			ft:   Feature{ID: float32(1)}.WithPoint(Point{0, 0}),
 			json: `{"id":1,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
 		},
 		"float64": {
-			ft:   Feature{ID: float64(1)}.WithPoint(&Point{0, 0}),
+			ft:   Feature{ID: float64(1)}.WithPoint(Point{0, 0}),
 			json: `{"id":1,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
 		},
 		"other type than int or string": {
-			ft:  Feature{ID: true}.WithPoint(&Point{0, 0}),
+			ft:  Feature{ID: true}.WithPoint(Point{0, 0}),
 			err: `json: error calling MarshalJSON for type joejson.Feature: invalid type "bool" for id, expected string or numeric`,
 		},
 	}
@@ -258,15 +258,15 @@ func TestFeatureIDJSONUnmarshall(t *testing.T) {
 	}{
 		"string": {
 			json: `{"id":"1","type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
-			ft:   Feature{ID: "1"}.WithPoint(&Point{0, 0}),
+			ft:   Feature{ID: "1"}.WithPoint(Point{0, 0}),
 		},
 		"integer": {
 			json: `{"id":1,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
-			ft:   Feature{ID: float64(1)}.WithPoint(&Point{0, 0}),
+			ft:   Feature{ID: float64(1)}.WithPoint(Point{0, 0}),
 		},
 		"decimal": {
 			json: `{"id":1.5,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
-			ft:   Feature{ID: float64(1.5)}.WithPoint(&Point{0, 0}),
+			ft:   Feature{ID: float64(1.5)}.WithPoint(Point{0, 0}),
 		},
 		"other type than numeric or string": {
 			json: `{"id":true,"type":"Feature","geometry":{"coordinates":[0,0],"type":"Point"}}`,
