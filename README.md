@@ -1,5 +1,9 @@
 # JoeJSON
 
+[![CI](https://github.com/sgarcez/joejson/actions/workflows/ci.yml/badge.svg)](https://github.com/sgarcez/joejson/actions?query=workflow%3Aci)
+[![Go Report Card](https://goreportcard.com/badge/github.com/sgarcez/joejson)](https://goreportcard.com/report/github.com/sgarcez/joejson)
+[![Go Reference](https://pkg.go.dev/badge/github.com/sgarcez/joejson.svg)](https://pkg.go.dev/github.com/sgarcez/joejson)
+
 A GeoJSON (RFC 7946) Go implementation.
 
 ## Features
